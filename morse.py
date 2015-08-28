@@ -37,7 +37,7 @@ def wav2sq(fd, wav, f, d):
 
 	return wav, fd, s, filter, g, m, p
 
-def _plot(wav, fd, s, filter, g, m, p):
+def plot_wav2sq(wav, fd, s, filter, g, m, p):
 	"Plot spectrum + filter and intermediate waveforms produced by wav2sq()"
 	subplot(211)
 	plot(arange(s.shape[0])*fd/wav.shape[0], s)
