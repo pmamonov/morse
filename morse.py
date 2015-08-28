@@ -14,6 +14,19 @@ import numpy.fft as fft
 
 #fd, wav = wavfile.read("morse-7000khz.wav")
 
+def find_sig(fd, wav, w=10):
+	s = fft.rfft(wav)
+	a = movavg(abs(s), 2 * w * s.shape[0] / fd)
+	plot(arange(s.shape[0]) * fd / 2 / s.shape[0], s)
+	plot(arange(a.shape[0]) * fd / 2 / a.shape[0], a)
+	amax = a.max()
+	ia = arange(a.shape[0])
+	f = ia[a == amax][0] #* fd / 2 / a.shape[0]
+	fmin = ia[ia < f and a < amax/4 ].max()
+	fmax = ia[ia > f and a < amax/4 ].min()
+	return f * fd/2 /a.shape[0], (fmax - fmin) * fd/2 /a.shape[0]
+
+
 def wav2sq(fd, wav, f, d):
 	"Convert raw waveform to square pulses"
 	L = wav.shape[0]
